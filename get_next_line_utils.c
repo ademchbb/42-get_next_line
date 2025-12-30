@@ -5,68 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adchebbi <adchebbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/19 13:20:49 by adchebbi          #+#    #+#             */
-/*   Updated: 2025/11/20 14:37:26 by adchebbi         ###   ########.fr       */
+/*   Created: 2025/12/30 09:01:04 by adchebbi          #+#    #+#             */
+/*   Updated: 2025/12/30 12:16:15 by adchebbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	gnl_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	int	len;
+	size_t	i;
 
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-char	*gnl_strchr(const char *s, int c)
+char	*ft_strdup(const char *s)
 {
-	int	i;
+	char	*new;
+	size_t	i;
 
-	if (!s)
+	i = 0;
+	new = malloc(ft_strlen(s) + 1);
+	if (!new)
 		return (NULL);
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
+		new[i] = s[i];
 		i++;
 	}
-	if (c == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
+	new[i] = '\0';
+	return (new);
 }
 
-char	*gnl_strjoin(char *s1, const char *s2)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
+	char	*new;
 	size_t	i;
-	size_t	j;
-	char	*join;
+	size_t	slen;
 
-	join = malloc((gnl_strlen(s1) + gnl_strlen(s2)) + 1);
-	if (!join)
+	if (!s)
+		return (NULL);
+	slen = ft_strlen(s);
+	if (start >= slen)
+		len = 0;
+	else if (len > slen - start)
+		len = slen - start;
+	new = malloc(len + 1);
+	if (!new)
 		return (NULL);
 	i = 0;
-	if (s1)
+	while (i < len)
 	{
-		while (s1[i])
-		{
-			join[i] = s1[i];
-			i++;
-		}
+		new[i] = s[start + i];
+		i++;
 	}
-	j = 0;
-	while (s2[j])
+	new[i] = '\0';
+	return (new);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t				i;
+	unsigned char		*d;
+	unsigned const char	*s;
+
+	if (!dst && !src)
+		return (NULL);
+	i = 0;
+	d = (unsigned char *) dst;
+	s = (unsigned const char *) src;
+	while (i < n)
 	{
-		join[i + j] = s2[j];
-		j++;
+		d[i] = s[i];
+		i++;
 	}
-	join[i + j] = '\0';
-	free(s1);
-	return (join);
+	return (d);
 }
